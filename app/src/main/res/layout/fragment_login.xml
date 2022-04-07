@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:ems="15"
         android:inputType="textEmailAddress"
-
+        android:hint="@string/enter_e_mail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -24,6 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="15"
+        android:hint="@string/enter_password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,9 +35,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/login"
+        android:textColor="@color/white"
         app:layout_constraintTop_toBottomOf="@id/editTextTextPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:backgroundTint="#808080"
-        android:layout_marginTop="50dp"/>
+
+        android:layout_marginTop="50dp"
+        android:enabled="false"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
