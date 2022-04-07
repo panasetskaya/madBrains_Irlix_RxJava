@@ -42,30 +42,27 @@ class LoginFragment : Fragment() {
         editTextEmail = view.findViewById(R.id.editTextTextEmailAddress)
         editTextPassword = view.findViewById(R.id.editTextTextPassword)
         button = view.findViewById(R.id.buttonLogin)
-        currentPassword?.let {
-            editTextPassword.setText(it)
-        }
-        currentEmail?.let{
-            editTextEmail.setText(it)
-        }
-        checkSymbolsNumber()
+        currentPassword?.let { editTextPassword.setText(it) }
+        currentEmail?.let{ editTextEmail.setText(it) }
+        checkForEnablingButton()
         button.setOnClickListener {
-            val navController = view.findNavController()
+            val navController = it.findNavController()
             val action = LoginFragmentDirections.actionLoginFragmentToSearchFragment()
             navController.navigate(action)
         }
     }
 
-    fun checkSymbolsNumber() {
+    fun checkForEnablingButton() {
         val editTextEmailObservable = RxTextView.textChanges(editTextEmail).map { it.toString() }
         val editTextPasswordObservable = RxTextView.textChanges(editTextPassword).map { it.toString() }
-        Observable.zip(editTextEmailObservable, editTextPasswordObservable) { email, password ->
-            email.length >= 6 && password.length >=6 }.subscribe {
-            button.isEnabled = it
-            if (button.isEnabled==true) {
+        Observable
+            .zip(editTextEmailObservable, editTextPasswordObservable) { email, password ->
+                email.length >= 6 && password.length >=6 }
+            .subscribe {
+                button.isEnabled = it
+                if (button.isEnabled) {
                 button.setBackgroundColor(resources.getColor(R.color.teal_200))
             }
         }
     }
-
 }
