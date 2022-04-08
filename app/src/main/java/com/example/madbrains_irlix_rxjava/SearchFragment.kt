@@ -79,10 +79,46 @@ class SearchFragment : Fragment() {
             parseJson()
         }
             .subscribeOn(Schedulers.io())
+            .doOnNext { Log.i("MyRes", "${Thread.currentThread().name}") }
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext { Log.i("MyRes", "${Thread.currentThread().name}") }
+            .observeOn(Schedulers.io())
+            .doOnNext { Log.i("MyRes", "${Thread.currentThread().name}") }
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext { Log.i("MyRes", "${Thread.currentThread().name}") }
             .subscribe ({
                 textForSearch = it
                 "Текст для поиска:\n$it".also { textViewResult.text = it }
+            }, {
+                Log.i("MyRes", it.toString())
+            })
+
+        val randomU = Observable.create<String> {
+           it.onNext("LORILORILORILORILORILORILORI")
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+
+        val randomI = Observable.create<String> {
+            it.onNext("CHUKCHUKCHUKCHUKCHUKCHUK")
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+
+        Observable
+            .zip(randomI,randomU) {i, u->
+                val map = mutableMapOf<Char, Char>()
+                for (element in i) {
+                    val index = i.indexOf(element)
+                    map.put(element,u.get(index))
+                }
+                map
+            }
+            .subscribeOn(Schedulers.io())
+            .doOnNext { Log.i("MyRes", "${Thread.currentThread().name}") }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe ({
+                Log.i("MyRes", "$it")
             }, {
                 Log.i("MyRes", it.toString())
             })
